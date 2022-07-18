@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Responsive Registration Form</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<script>
+  function validaAcesso(p1){
+     if(p1 === ""){
+       alert("Realize o acesso!");
+       window.location.href = "index.html";
+     } else if(p1 !== "adm"){
+      alert("Você não possui acesso a esta página!"); 
+      window.location.href = "menu.jsp";
+     }
+  }   
+</script> 
+
+<body>
+
+  <%
+  String tipoAcesso = "";
+  if (session.getAttribute("tipoAcesso") != null){
+      tipoAcesso = session.getAttribute("tipoAcesso").toString();
+  }
+  System.out.println("Tipo:" + tipoAcesso);            
+  out.write("<script>validaAcesso(\"" + tipoAcesso + "\");</script>");  
+%>
+
+
+<!-- partial:index.partial.html -->
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Cadastrar Cargo</h2>
+
+      <label class="cabecalho" id="msg"> 
+            <%
+                if(request.getParameter("pmensagem")  != null) {         
+                    out.write(request.getParameter("pmensagem"));
+                }
+            %>
+        </label>
+    </div>
+
+
+    <div class="row clearfix">
+      <div class="">
+        <form action="recebedadoscargo.jsp" method="POST">
+          
+          <div class="input_field">
+            <label>Descrição do Cargo: </label>
+            <input type="text" name="descCargo" placeholder="Informe o cargo" required />
+          </div>
+          
+          <input class="button" type="submit" value="Cadastra"/> 
+          <input class="button" type="reset" value="Cancela"/>  
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script>
+    function enviarDados(){
+            var descCargo = document.getElementsByName("descCargo");
+            if(descCargo[0].value === ""){
+                descCargo[0].focus();
+                alert("Informe a Descrição do Cargo");
+                exit();
+            }
+
+            document.forms[0].submit();
+    }
+</script>    
+</html>
